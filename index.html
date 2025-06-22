@@ -1,156 +1,129 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>X Global Currency Exchange</title>
   <style>
     body {
-      background-color: pink;
-      font-family: 'Segoe UI', sans-serif;
       margin: 0;
       padding: 0;
-      text-align: center;
-    }
-    nav {
-      background-color: #0066ff;
-      padding: 10px;
-    }
-    nav button {
-      background-color: #0099ff;
-      border: none;
-      color: white;
-      padding: 10px 20px;
-      margin: 5px;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    h2 {
-      margin-top: 30px;
-      font-size: 24px;
-    }
-    .container {
-      margin-top: 20px;
-    }
-    select, input {
-      padding: 10px;
-      border-radius: 5px;
-      margin: 10px;
-      border: 1px solid #ccc;
-      width: 80%;
-      max-width: 300px;
-    }
-    button.convert {
-      background-color: yellow;
-      padding: 10px 25px;
-      border: none;
-      border-radius: 10px;
-      font-weight: bold;
-      margin-top: 10px;
-    }
-    #result {
-      margin-top: 20px;
-      font-size: 20px;
-      font-weight: bold;
-    }
+      font-family: Arial, sans-serif;
+      background-color: pink;
+      color: #222;
+    }.navbar {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: #2196F3;
+  flex-wrap: wrap;
+}
+
+.navbar button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background-color: #2196F3;
+  color: white;
+  font-weight: bold;
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+select,
+input {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 80%;
+  max-width: 300px;
+}
+
+#convertBtn {
+  background-color: yellow;
+  color: black;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+#result {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
   </style>
-</head>
-<body>
-  <nav>
-    <button onclick="goHome()">🏠 Home</button>
-    <button onclick="goExchange()">💱 Exchange</button>
-    <button onclick="goContact()">📞 Contact</button>
-  </nav>
+</head><body>
+  <div class="navbar">
+    <button>🏠 Home</button>
+    <button>💱 Exchange</button>
+    <button onclick="window.location.href='https://wa.me/255775710774'">📞 Contact</button>
+  </div>  <div class="container">
+    <h2>Exchange Dashboard</h2><select id="fromCurrency"></select>
+<input type="number" id="amount" placeholder="Enter amount" />
+<select id="toCurrency"></select>
 
-  <h2>Exchange Dashboard</h2>
-  <div class="container">
-    <select id="fromCurrency">
-      <option value="USD">USA (USD)</option>
-      <option value="TZS">Tanzania (TZS)</option>
-      <option value="KES">Kenya (KES)</option>
-      <option value="UGX">Uganda (UGX)</option>
-      <option value="RWF">Rwanda (RWF)</option>
-      <option value="BIF">Burundi (BIF)</option>
-      <option value="ZAR">South Africa (ZAR)</option>
-      <option value="NGN">Nigeria (NGN)</option>
-      <option value="EGP">Egypt (EGP)</option>
-      <option value="ETB">Ethiopia (ETB)</option>
-      <option value="GHS">Ghana (GHS)</option>
-      <option value="EUR">Euro (EUR)</option>
-      <option value="GBP">UK (GBP)</option>
-      <option value="JPY">Japan (JPY)</option>
-      <option value="CNY">China (CNY)</option>
-      <option value="INR">India (INR)</option>
-      <option value="CAD">Canada (CAD)</option>
-      <option value="AUD">Australia (AUD)</option>
-      <option value="AED">UAE (AED)</option>
-      <option value="SAR">Saudi Arabia (SAR)</option>
-    </select><br>
-    <input type="number" id="amount" placeholder="Enter amount"><br>
-    <select id="toCurrency">
-      <!-- Copy same options here -->
-    </select><br>
-    <button class="convert" onclick="convert()">Convert</button>
-    <div id="result"></div>
-  </div>
+<button id="convertBtn">Convert</button>
+<div id="result"></div>
 
-  <script>
-    const exchangeRates = {
-      "USD": 1,
-      "TZS": 2550,
-      "KES": 115,
-      "UGX": 3750,
-      "RWF": 1250,
-      "BIF": 2900,
-      "ZAR": 18,
-      "NGN": 1500,
-      "EGP": 47,
-      "ETB": 57,
-      "GHS": 15,
-      "EUR": 0.93,
+  </div>  <script>
+    const currencies = {
+      "USD": 1.00,
+      "TZS": 2550.00,
+      "KES": 132.50,
+      "UGX": 3750.00,
+      "RWF": 1250.00,
+      "ZAR": 18.00,
+      "EUR": 0.92,
       "GBP": 0.79,
-      "JPY": 157,
-      "CNY": 7.2,
-      "INR": 83,
-      "CAD": 1.36,
-      "AUD": 1.52,
-      "AED": 3.67,
-      "SAR": 3.75
+      "INR": 83.10,
+      "CNY": 7.25,
+      "JPY": 157.05,
+      "CAD": 1.37,
+      "AUD": 1.51,
+      "BRL": 5.43,
+      "GHS": 14.60,
+      "NGN": 1500.00,
+      "ETB": 56.80,
+      "MWK": 1750.00,
+      "ZMW": 24.10,
+      "BWP": 13.50
     };
 
-    // Copy options from fromCurrency to toCurrency
-    window.onload = function () {
-      const from = document.getElementById("fromCurrency");
-      const to = document.getElementById("toCurrency");
-      to.innerHTML = from.innerHTML;
-    };
+    const fromSelect = document.getElementById("fromCurrency");
+    const toSelect = document.getElementById("toCurrency");
 
-    function convert() {
-      const from = document.getElementById("fromCurrency").value;
-      const to = document.getElementById("toCurrency").value;
+    for (let code in currencies) {
+      fromSelect.innerHTML += `<option value="${code}">${code}</option>`;
+      toSelect.innerHTML += `<option value="${code}">${code}</option>`;
+    }
+
+    document.getElementById("convertBtn").onclick = () => {
+      const from = fromSelect.value;
+      const to = toSelect.value;
       const amount = parseFloat(document.getElementById("amount").value);
 
-      if (isNaN(amount)) {
-        alert("Enter a valid amount");
+      if (!amount || amount <= 0) {
+        alert("Please enter a valid amount");
         return;
       }
 
-      const usdAmount = amount / exchangeRates[from];
-      const converted = usdAmount * exchangeRates[to];
-      document.getElementById("result").innerText = `${amount} ${from} = ${converted.toFixed(2)} ${to}`;
-    }
-
-    function goHome() {
-      alert("Welcome to X Global Home Page");
-    }
-
-    function goExchange() {
-      window.scrollTo(0, 100);
-    }
-
-    function goContact() {
-      window.location.href = "mailto:mrxdeveloper2@gmail.com";
-    }
-  </script>
-</body>
-</html>
+      const result = (amount / currencies[from]) * currencies[to];
+      document.getElementById("result").innerText = `${amount} ${from} = ${result.toFixed(2)} ${to}`;
+    };
+  </script></body></html>
