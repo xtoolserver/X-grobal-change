@@ -1,0 +1,198 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>X Global Currency Exchange</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: pink;
+      color: #222;
+      text-align: center;
+    }
+    .navbar {
+      background: #ffc0cb;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    .navbar button {
+      background: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 4px #0056b3;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .navbar button:hover {
+      background: #0056b3;
+      transform: translateY(2px);
+    }
+    .page {
+      display: none;
+      padding: 20px;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    #home { display: block; }
+    .country-slider {
+      display: flex;
+      overflow-x: auto;
+      padding: 10px;
+    }
+    .country-box {
+      background: #ffe4e1;
+      border: 1px solid #ff69b4;
+      color: #000;
+      margin: 5px;
+      padding: 10px;
+      border-radius: 10px;
+      min-width: 120px;
+      text-align: center;
+    }
+    select, input {
+      padding: 10px;
+      margin: 10px;
+      border-radius: 8px;
+      background: #fff0f5;
+      border: 1px solid #ff69b4;
+      font-size: 16px;
+    }
+    button.convert-btn {
+      background: yellow;
+      color: black;
+      font-weight: bold;
+      border-radius: 12px;
+      box-shadow: 0 6px #ccc;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #333;
+    }
+    iframe#adVideo {
+      margin-top: 20px;
+      width: 90%;
+      max-width: 400px;
+      height: 300px;
+      display: none;
+      border: 2px solid #007bff;
+      border-radius: 10px;
+    }
+    .contact-button {
+      background: #ffcc00;
+      color: #000;
+      padding: 15px 30px;
+      font-size: 18px;
+      border-radius: 8px;
+      border: none;
+      margin: 10px auto;
+      display: inline-block;
+    }
+    a {
+      color: #0000ee;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <button onclick="showPage('home')">🏠 Home</button>
+    <button onclick="showPage('exchange')">💱 Exchange</button>
+    <button onclick="showPage('contact')">📞 Contact</button>
+  </div>  <div id="home" class="page">
+    <h1>Welcome to X Global Currency Exchange</h1>
+    <p>Swipe currencies below 👇</p>
+    <div class="country-slider" id="countrySlider"></div>
+  </div>  <div id="exchange" class="page">
+    <h2>Exchange Dashboard</h2>
+    <select id="fromCurrency"></select>
+    <input type="number" id="amount" placeholder="Enter amount">
+    <select id="toCurrency"></select><br>
+    <button class="convert-btn" onclick="convertCurrency()">Convert</button>
+    <div id="result"></div>
+    <iframe id="adVideo" src="https://www.tiktok.com/embed/ZMSu9AM8D" allowfullscreen></iframe>
+  </div>  <div id="contact" class="page">
+    <h2>Contact Support</h2>
+    <a href="https://wa.me/255775710774"><div class="contact-button">📱 WhatsApp: +255775710774</div></a>
+    <p>Email: <a href="mailto:mrxdeveloper2@gmail.com">mrxdeveloper2@gmail.com</a></p>
+  </div>  <script>
+    const currencies = {
+      "USD": "United States Dollar",
+      "EUR": "Euro",
+      "GBP": "British Pound",
+      "CNY": "Chinese Yuan",
+      "JPY": "Japanese Yen",
+      "INR": "Indian Rupee",
+      "KES": "Kenyan Shilling",
+      "TZS": "Tanzanian Shilling",
+      "UGX": "Ugandan Shilling",
+      "ZAR": "South African Rand",
+      "CAD": "Canadian Dollar",
+      "AUD": "Australian Dollar",
+      "NGN": "Nigerian Naira",
+      "SAR": "Saudi Riyal",
+      "AED": "UAE Dirham",
+      "RUB": "Russian Ruble",
+      "CHF": "Swiss Franc",
+      "SEK": "Swedish Krona",
+      "BRL": "Brazilian Real",
+      "KRW": "South Korean Won"
+    };
+
+    let conversionCount = 0;
+
+    function populateDropdowns() {
+      const from = document.getElementById('fromCurrency');
+      const to = document.getElementById('toCurrency');
+      Object.keys(currencies).forEach(code => {
+        from.add(new Option(`${currencies[code]} (${code})`, code));
+        to.add(new Option(`${currencies[code]} (${code})`, code));
+      });
+      from.value = 'USD';
+      to.value = 'TZS';
+    }
+
+    function showPage(id) {
+      document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+      document.getElementById(id).style.display = 'block';
+    }
+
+    function renderCountrySlider() {
+      const slider = document.getElementById('countrySlider');
+      Object.entries(currencies).forEach(([code, name]) => {
+        const b = document.createElement('div');
+        b.className = 'country-box';
+        b.innerHTML = `${name}<br>(${code})`;
+        slider.appendChild(b);
+      });
+    }
+
+    function convertCurrency() {
+      const from = document.getElementById('fromCurrency').value;
+      const to = document.getElementById('toCurrency').value;
+      const amount = parseFloat(document.getElementById('amount').value);
+      if (isNaN(amount)) {
+        return alert('Enter a valid amount!');
+      }
+
+      fetch(`https://api.exchangerate.host/latest?base=${from}&symbols=${to}`)
+        .then(r => r.json())
+        .then(json => {
+          const rate = json.rates[to];
+          const result = (amount * rate).toFixed(2);
+          document.getElementById('result').innerText = `${amount} ${from} = ${result} ${to}`;
+          conversionCount++;
+          if (conversionCount % 2 === 0)
+            document.getElementById('adVideo').style.display = 'block';
+        })
+        .catch(() => alert('Error fetching rates.'));
+    }
+
+    populateDropdowns();
+    renderCountrySlider();
+  </script></body>
+</html>
