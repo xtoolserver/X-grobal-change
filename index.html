@@ -1,129 +1,162 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html><html lang="en">
+<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>X Global Currency Exchange</title>
+  <title>X Global Currency</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
       font-family: Arial, sans-serif;
       background-color: pink;
-      color: #222;
-    }.navbar {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  padding: 10px;
-  background-color: #2196F3;
-  flex-wrap: wrap;
-}
-
-.navbar button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  background-color: #2196F3;
-  color: white;
-  font-weight: bold;
-}
-
-.container {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
-h2 {
-  margin-bottom: 20px;
-}
-
-select,
-input {
-  padding: 10px;
-  margin: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  width: 80%;
-  max-width: 300px;
-}
-
-#convertBtn {
-  background-color: yellow;
-  color: black;
-  font-weight: bold;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  margin-top: 10px;
-  cursor: pointer;
-}
-
-#result {
-  margin-top: 20px;
-  font-size: 18px;
-  font-weight: bold;
-}
-
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+    #splashScreen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      height: 100vh;
+      background-color: pink;
+    }
+    #splashScreen img {
+      width: 200px;
+      height: auto;
+      border-radius: 20px;
+    }
+    #mainApp {
+      display: none;
+      padding: 20px;
+      height: 100vh;
+      box-sizing: border-box;
+    }
+    .nav {
+      display: flex;
+      justify-content: space-around;
+      background-color: blue;
+      padding: 10px;
+      color: white;
+    }
+    .nav button {
+      background-color: #fff;
+      color: blue;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+    h2 {
+      text-align: center;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-top: 20px;
+    }
+    select, input, button.convert-btn {
+      margin: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    button.convert-btn {
+      background-color: yellow;
+      border: none;
+      font-weight: bold;
+    }
+    .contact {
+      margin-top: 30px;
+      text-align: center;
+    }
+    .contact a {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: blue;
+      color: white;
+      text-decoration: none;
+    }
   </style>
-</head><body>
-  <div class="navbar">
-    <button>🏠 Home</button>
-    <button>💱 Exchange</button>
-    <button onclick="window.location.href='https://wa.me/255775710774'">📞 Contact</button>
-  </div>  <div class="container">
-    <h2>Exchange Dashboard</h2><select id="fromCurrency"></select>
-<input type="number" id="amount" placeholder="Enter amount" />
-<select id="toCurrency"></select>
+</head>
+<body>
+  <div id="splashScreen">
+    <img src="https://files.catbox.moe/q0nftv.jpg" alt="Mr X Developer Logo" />
+    <h2>Mr X Developer</h2>
+  </div>  <div id="mainApp">
+    <div class="nav">
+      <button onclick="goHome()">🏠 Home</button>
+      <button onclick="goExchange()">💱 Exchange</button>
+      <button onclick="contact()">📞 Contact</button>
+    </div><h2>Exchange Dashboard</h2>
+<div class="container">
+  <select id="from">
+    <option value="USD">USA (USD)</option>
+    <option value="TZS">Tanzania (TZS)</option>
+    <option value="EUR">Euro (EUR)</option>
+    <option value="GBP">British Pound (GBP)</option>
+    <option value="CNY">Chinese Yuan (CNY)</option>
+    <option value="JPY">Japanese Yen (JPY)</option>
+    <option value="INR">Indian Rupee (INR)</option>
+  </select>
+  <input type="number" id="amount" placeholder="Enter amount" />
+  <select id="to">
+    <option value="USD">USA (USD)</option>
+    <option value="TZS">Tanzania (TZS)</option>
+    <option value="EUR">Euro (EUR)</option>
+    <option value="GBP">British Pound (GBP)</option>
+    <option value="CNY">Chinese Yuan (CNY)</option>
+    <option value="JPY">Japanese Yen (JPY)</option>
+    <option value="INR">Indian Rupee (INR)</option>
+  </select>
+  <button class="convert-btn" onclick="convertCurrency()">Convert</button>
+  <p id="result"></p>
+</div>
 
-<button id="convertBtn">Convert</button>
-<div id="result"></div>
+<div class="contact">
+  <a href="https://wa.me/255775710774" target="_blank">WhatsApp</a>
+</div>
 
   </div>  <script>
-    const currencies = {
-      "USD": 1.00,
-      "TZS": 2550.00,
-      "KES": 132.50,
-      "UGX": 3750.00,
-      "RWF": 1250.00,
-      "ZAR": 18.00,
-      "EUR": 0.92,
-      "GBP": 0.79,
-      "INR": 83.10,
-      "CNY": 7.25,
-      "JPY": 157.05,
-      "CAD": 1.37,
-      "AUD": 1.51,
-      "BRL": 5.43,
-      "GHS": 14.60,
-      "NGN": 1500.00,
-      "ETB": 56.80,
-      "MWK": 1750.00,
-      "ZMW": 24.10,
-      "BWP": 13.50
+    const rates = {
+      USD: 1,
+      TZS: 2500,
+      EUR: 0.85,
+      GBP: 0.75,
+      CNY: 7,
+      JPY: 110,
+      INR: 74
     };
 
-    const fromSelect = document.getElementById("fromCurrency");
-    const toSelect = document.getElementById("toCurrency");
-
-    for (let code in currencies) {
-      fromSelect.innerHTML += `<option value="${code}">${code}</option>`;
-      toSelect.innerHTML += `<option value="${code}">${code}</option>`;
-    }
-
-    document.getElementById("convertBtn").onclick = () => {
-      const from = fromSelect.value;
-      const to = toSelect.value;
+    function convertCurrency() {
+      const from = document.getElementById("from").value;
+      const to = document.getElementById("to").value;
       const amount = parseFloat(document.getElementById("amount").value);
-
-      if (!amount || amount <= 0) {
-        alert("Please enter a valid amount");
+      const resultEl = document.getElementById("result");
+      if (isNaN(amount)) {
+        resultEl.innerText = "Please enter a valid number.";
         return;
       }
+      const converted = (amount / rates[from]) * rates[to];
+      resultEl.innerText = `${amount} ${from} = ${converted.toFixed(2)} ${to}`;
+    }
 
-      const result = (amount / currencies[from]) * currencies[to];
-      document.getElementById("result").innerText = `${amount} ${from} = ${result.toFixed(2)} ${to}`;
-    };
-  </script></body></html>
+    function goHome() {
+      alert("Already on Home Page");
+    }
+    function goExchange() {
+      alert("You are on Exchange page");
+    }
+    function contact() {
+      window.location.href = "https://wa.me/255775710774";
+    }
+
+    setTimeout(() => {
+      document.getElementById("splashScreen").style.display = "none";
+      document.getElementById("mainApp").style.display = "block";
+    }, 3000);
+  </script></body>
+  </html>
