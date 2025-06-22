@@ -1,198 +1,175 @@
 <!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>X Global Currency Exchange</title>
   <style>
     body {
+      background-color: pink;
+      font-family: Arial, sans-serif;
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: pink;
-      color: #222;
+      padding: 0;
       text-align: center;
     }
     .navbar {
-      background: #ffc0cb;
-      padding: 10px;
       display: flex;
       justify-content: center;
-      gap: 10px;
+      gap: 20px;
+      background-color: #2196f3;
+      padding: 10px;
     }
     .navbar button {
-      background: #007bff;
-      color: #fff;
+      background-color: #2196f3;
+      color: white;
       padding: 10px 20px;
       border: none;
       border-radius: 10px;
-      box-shadow: 0 4px #0056b3;
-      cursor: pointer;
-      transition: 0.3s;
+      font-weight: bold;
+      box-shadow: 2px 2px 5px gray;
     }
-    .navbar button:hover {
-      background: #0056b3;
-      transform: translateY(2px);
-    }
-    .page {
-      display: none;
+    .section {
       padding: 20px;
-      min-height: 100vh;
-      box-sizing: border-box;
     }
-    #home { display: block; }
-    .country-slider {
-      display: flex;
-      overflow-x: auto;
-      padding: 10px;
-    }
-    .country-box {
-      background: #ffe4e1;
-      border: 1px solid #ff69b4;
-      color: #000;
-      margin: 5px;
-      padding: 10px;
-      border-radius: 10px;
-      min-width: 120px;
-      text-align: center;
-    }
-    select, input {
-      padding: 10px;
+    select, input, button.convert-btn {
       margin: 10px;
+      padding: 10px;
       border-radius: 8px;
-      background: #fff0f5;
-      border: 1px solid #ff69b4;
-      font-size: 16px;
+      border: 1px solid #ccc;
     }
     button.convert-btn {
-      background: yellow;
-      color: black;
+      background-color: yellow;
       font-weight: bold;
-      border-radius: 12px;
-      box-shadow: 0 6px #ccc;
+      box-shadow: 2px 2px 5px gray;
     }
-    #result {
+    .result {
       margin-top: 20px;
       font-size: 20px;
-      color: #333;
+      font-weight: bold;
     }
-    iframe#adVideo {
+    .currency-scroll {
+      overflow-x: auto;
+      white-space: nowrap;
       margin-top: 20px;
-      width: 90%;
-      max-width: 400px;
-      height: 300px;
-      display: none;
-      border: 2px solid #007bff;
-      border-radius: 10px;
     }
-    .contact-button {
-      background: #ffcc00;
-      color: #000;
-      padding: 15px 30px;
-      font-size: 18px;
-      border-radius: 8px;
-      border: none;
-      margin: 10px auto;
+    .currency-scroll button {
       display: inline-block;
+      margin: 5px;
+      padding: 10px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 1px 1px 3px gray;
+      cursor: pointer;
     }
-    a {
-      color: #0000ee;
+    iframe {
+      margin-top: 20px;
+      border: 2px solid #ccc;
+      border-radius: 12px;
+      width: 90%;
+      height: 300px;
+    }
+    .contact-section {
+      margin-top: 30px;
+    }
+    .contact-btn {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px;
+      background-color: green;
+      color: white;
+      border-radius: 10px;
       text-decoration: none;
+      font-weight: bold;
     }
   </style>
 </head>
-<body>
-  <div class="navbar">
-    <button onclick="showPage('home')">🏠 Home</button>
-    <button onclick="showPage('exchange')">💱 Exchange</button>
-    <button onclick="showPage('contact')">📞 Contact</button>
-  </div>  <div id="home" class="page">
-    <h1>Welcome to X Global Currency Exchange</h1>
-    <p>Swipe currencies below 👇</p>
-    <div class="country-slider" id="countrySlider"></div>
-  </div>  <div id="exchange" class="page">
+<body>  <div class="navbar">
+    <button onclick="navigate('home')">🏠 Home</button>
+    <button onclick="navigate('exchange')">💱 Exchange</button>
+    <button onclick="navigate('contact')">📞 Contact</button>
+  </div>  <div id="home" class="section">
+    <h2>Welcome to X Global Currency Exchange</h2>
+    <p>Swipe currencies below👇</p>
+    <div class="currency-scroll">
+      <button>United States Dollar (USD)</button>
+      <button>Euro (EUR)</button>
+      <button>British Pound (GBP)</button>
+      <button>Chinese Yuan (CNY)</button>
+      <button>Japanese Yen (JPY)</button>
+      <button>Indian Rupee (INR)</button>
+      <button>Nigerian Naira (NGN)</button>
+      <button>Kenyan Shilling (KES)</button>
+      <button>South African Rand (ZAR)</button>
+      <button>Ugandan Shilling (UGX)</button>
+    </div>
+  </div>  <div id="exchange" class="section" style="display: none;">
     <h2>Exchange Dashboard</h2>
-    <select id="fromCurrency"></select>
+    <select id="fromCurrency">
+      <option value="USD">United States Dollar (USD)</option>
+      <option value="EUR">Euro (EUR)</option>
+      <option value="GBP">British Pound (GBP)</option>
+      <option value="CNY">Chinese Yuan (CNY)</option>
+      <option value="JPY">Japanese Yen (JPY)</option>
+      <option value="INR">Indian Rupee (INR)</option>
+      <option value="NGN">Nigerian Naira (NGN)</option>
+      <option value="KES">Kenyan Shilling (KES)</option>
+      <option value="ZAR">South African Rand (ZAR)</option>
+      <option value="UGX">Ugandan Shilling (UGX)</option>
+    </select>
     <input type="number" id="amount" placeholder="Enter amount">
-    <select id="toCurrency"></select><br>
+    <select id="toCurrency">
+      <option value="USD">United States Dollar (USD)</option>
+      <option value="EUR">Euro (EUR)</option>
+      <option value="GBP">British Pound (GBP)</option>
+      <option value="CNY">Chinese Yuan (CNY)</option>
+      <option value="JPY">Japanese Yen (JPY)</option>
+      <option value="INR">Indian Rupee (INR)</option>
+      <option value="NGN">Nigerian Naira (NGN)</option>
+      <option value="KES">Kenyan Shilling (KES)</option>
+      <option value="ZAR">South African Rand (ZAR)</option>
+      <option value="UGX">Ugandan Shilling (UGX)</option>
+    </select>
+    <br>
     <button class="convert-btn" onclick="convertCurrency()">Convert</button>
-    <div id="result"></div>
-    <iframe id="adVideo" src="https://www.tiktok.com/embed/ZMSu9AM8D" allowfullscreen></iframe>
-  </div>  <div id="contact" class="page">
+    <div class="result" id="result"></div><iframe src="https://www.tiktok.com/embed/v2/7344233029474649345" allowfullscreen></iframe>
+
+  </div>  <div id="contact" class="section" style="display: none;">
     <h2>Contact Support</h2>
-    <a href="https://wa.me/255775710774"><div class="contact-button">📱 WhatsApp: +255775710774</div></a>
-    <p>Email: <a href="mailto:mrxdeveloper2@gmail.com">mrxdeveloper2@gmail.com</a></p>
+    <a class="contact-btn" href="https://wa.me/255775710774">📱 WhatsApp</a>
+    <p>Email: mrxdeveloper2@gmail.com</p>
   </div>  <script>
-    const currencies = {
-      "USD": "United States Dollar",
-      "EUR": "Euro",
-      "GBP": "British Pound",
-      "CNY": "Chinese Yuan",
-      "JPY": "Japanese Yen",
-      "INR": "Indian Rupee",
-      "KES": "Kenyan Shilling",
-      "TZS": "Tanzanian Shilling",
-      "UGX": "Ugandan Shilling",
-      "ZAR": "South African Rand",
-      "CAD": "Canadian Dollar",
-      "AUD": "Australian Dollar",
-      "NGN": "Nigerian Naira",
-      "SAR": "Saudi Riyal",
-      "AED": "UAE Dirham",
-      "RUB": "Russian Ruble",
-      "CHF": "Swiss Franc",
-      "SEK": "Swedish Krona",
-      "BRL": "Brazilian Real",
-      "KRW": "South Korean Won"
+    const staticRates = {
+      USD: { TZS: 2550, EUR: 0.85, GBP: 0.75, INR: 75 },
+      EUR: { USD: 1.17, TZS: 3000 },
+      GBP: { USD: 1.34, TZS: 3500 },
+      INR: { USD: 0.013, TZS: 35 },
+      TZS: { USD: 0.00039, EUR: 0.00033 },
+      NGN: { TZS: 1.5, USD: 0.0013 },
+      KES: { TZS: 18, USD: 0.0085 },
+      ZAR: { TZS: 140, USD: 0.055 },
+      UGX: { TZS: 0.68, USD: 0.00027 },
+      CNY: { USD: 0.14, TZS: 360 }
     };
 
-    let conversionCount = 0;
-
-    function populateDropdowns() {
-      const from = document.getElementById('fromCurrency');
-      const to = document.getElementById('toCurrency');
-      Object.keys(currencies).forEach(code => {
-        from.add(new Option(`${currencies[code]} (${code})`, code));
-        to.add(new Option(`${currencies[code]} (${code})`, code));
-      });
-      from.value = 'USD';
-      to.value = 'TZS';
-    }
-
-    function showPage(id) {
-      document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-      document.getElementById(id).style.display = 'block';
-    }
-
-    function renderCountrySlider() {
-      const slider = document.getElementById('countrySlider');
-      Object.entries(currencies).forEach(([code, name]) => {
-        const b = document.createElement('div');
-        b.className = 'country-box';
-        b.innerHTML = `${name}<br>(${code})`;
-        slider.appendChild(b);
-      });
-    }
-
     function convertCurrency() {
-      const from = document.getElementById('fromCurrency').value;
-      const to = document.getElementById('toCurrency').value;
-      const amount = parseFloat(document.getElementById('amount').value);
-      if (isNaN(amount)) {
-        return alert('Enter a valid amount!');
+      const from = document.getElementById("fromCurrency").value;
+      const to = document.getElementById("toCurrency").value;
+      const amount = parseFloat(document.getElementById("amount").value);
+
+      if (!staticRates[from] || !staticRates[from][to]) {
+        document.getElementById("result").innerText = `Exchange rate from ${from} to ${to} not available.`;
+        return;
       }
 
-      fetch(`https://api.exchangerate.host/latest?base=${from}&symbols=${to}`)
-        .then(r => r.json())
-        .then(json => {
-          const rate = json.rates[to];
-          const result = (amount * rate).toFixed(2);
-          document.getElementById('result').innerText = `${amount} ${from} = ${result} ${to}`;
-          conversionCount++;
-          if (conversionCount % 2 === 0)
-            document.getElementById('adVideo').style.display = 'block';
-        })
-        .catch(() => alert('Error fetching rates.'));
+      const rate = staticRates[from][to];
+      const converted = (amount * rate).toFixed(2);
+      document.getElementById("result").innerText = `${amount} ${from} = ${converted} ${to}`;
     }
 
-    populateDropdowns();
-    renderCountrySlider();
+    function navigate(page) {
+      document.getElementById("home").style.display = "none";
+      document.getElementById("exchange").style.display = "none";
+      document.getElementById("contact").style.display = "none";
+      document.getElementById(page).style.display = "block";
+    }
   </script></body>
-</html>
+  </html>
